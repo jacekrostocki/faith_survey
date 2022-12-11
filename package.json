@@ -1,0 +1,20 @@
+{
+  "name": "js-survey",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel serve src/index.html --public-url / --dist-dir dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "parcel": "^2.8.1"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.1"
+  }
+}
