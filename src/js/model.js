@@ -1,4 +1,4 @@
-const state = {
+export const state = {
   survey: {
     intro: [
       "Jestes Katolikiem?",
@@ -55,7 +55,7 @@ const state = {
   respEl2: "",
   stageC: 0,
   innerStageC: 0,
-  userChoice: 1,
+  userChoice: 0,
 };
 
 //////////////////////////////////////////
@@ -79,11 +79,16 @@ export const currStagePosition = function () {
   }
 };
 
+export const userSelectionIntoState = function (data) {
+  state.userChoice = data;
+  console.log(state.userChoice);
+};
+
 const _clearCurrentRR = function () {
   state.respEl1 = "";
   state.respEl2 = "";
 };
-const _clearCurrenQQ = function () {
+const _clearCurrentQQ = function () {
   state.qqEl = "";
 };
 
@@ -91,10 +96,10 @@ export const pushIntoState = function () {
   const currQA = state.survey[state.headers[state.stageC]];
   //clear state before iterration, user submission
   _clearCurrentRR();
-  _clearCurrenQQ();
+  _clearCurrentQQ();
   //DISPLAY AS Q if single element inside current stage
   if (!Array.isArray(currQA[state.innerStageC])) {
-    _clearCurrenQQ();
+    _clearCurrentRR();
     state.qqEl = currQA[state.innerStageC];
     console.log(state.qqEl);
   }
@@ -103,7 +108,7 @@ export const pushIntoState = function () {
     Array.isArray(currQA[state.innerStageC]) &&
     currQA[state.innerStageC][0] === "o"
   ) {
-    _clearCurrentRR();
+    _clearCurrentQQ();
     state.respEl1 = currQA[state.innerStageC][1];
     state.respEl2 = currQA[state.innerStageC][2];
     console.log(state.respEl1, state.respEl2);
@@ -112,29 +117,33 @@ export const pushIntoState = function () {
     Array.isArray(currQA[state.innerStageC]) &&
     currQA[state.innerStageC][0] === "r"
   ) {
-    _clearCurrenQQ();
-    state.qqEl = currQA[state.userChoice];
-    console.log("r !!!!!!", state.qqEl, currQA, currQA[state.innerStageC][0]);
+    _clearCurrentRR();
+    state.qqEl = currQA[state.innerStageC][state.userChoice];
+    console.log(
+      "r !!!!!!",
+      state.qqEl,
+      Array.isArray(currQA[state.innerStageC]) &&
+        currQA[state.innerStageC][0] === "r"
+    );
   }
 
   if (
     Array.isArray(currQA[state.innerStageC]) &&
     currQA[state.innerStageC][0] === "o/P"
   ) {
-    _clearCurrentRR();
+    _clearCurrentQQ();
     state.respEl1 = currQA[state.innerStageC][1];
     state.respEl2 = currQA[state.innerStageC][2];
     //run through headers arr and delet all P# that werent picked by user
-    const newArr = [];
-    state.headers.forEach((el) => {
+    const currentStage = state.headers[state.stageC];
+    const newArr = state.headers.forEach((el, i) => {
       if (
-        el.includes(`${currQA}`) &&
-        el !== `${currQA}P${String(state.userChoice)}`
+        el.includes(`${currentStage}`) &&
+        el !== String(`${currentStage}P${state.userChoice}`)
       )
-        return;
-      newArr.push(el);
+        state.headers.splice(i, 1);
     });
-    console.log(newArr, `${currQA}P${String(state.userChoice)}`);
+    console.log(state.headers, newArr);
   }
 
   //invoke stage counter + increase innerStageCounter

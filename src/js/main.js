@@ -4,10 +4,19 @@ import * as model from "./model";
 import view from "./view";
 
 const controlSubmit = function () {
+  //PUSH INTO STATE CURRENT ITEM
   model.pushIntoState();
+  //render QUESTION / RESPONSES
+  view.renderQQ(model.state.qqEl);
+  view.renderRR(model.state.respEl1, model.state.respEl2);
+};
+
+const controlUserSelection = function (data) {
+  model.userSelectionIntoState(data);
 };
 
 const init = function () {
   view.addHandlerSubmitBtn(controlSubmit);
+  view.addHandlerUserChoice(controlUserSelection);
 };
 init();
