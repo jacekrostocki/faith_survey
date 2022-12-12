@@ -4,7 +4,7 @@ import * as model from "./model";
 import view from "./view";
 
 const controlSubmit = function () {
-  model.currIndex();
+  model.currPosition();
 };
 
 const init = function () {
