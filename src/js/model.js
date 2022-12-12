@@ -25,12 +25,44 @@ const survey = {
     "Co myslisz na ten temat?",
     ["o/P", "Jest to detal", "Nie wiedziałem/am"],
   ],
-  stageP1: [
+  stage2P1: [
     "Przeczytaj to i wroc zeby odpowiedz dalej: List do Galacjan rozdzial 1 wersy: 6-9 (15 sekund czytania :)). Czy ma to jakis wplyw na Ciebie? Refleksje?",
 
-    ["o", "Zerowy wpływ. Papiez wie co robi a ja chodze na msze itp", ""],
-    "",
-    ["", "", ""],
+    [
+      "o",
+      "Papież wie co robi i ma moje zaufanie!",
+      "Masz moją uwage, jestem ciekaw co w trawie piszczy :)",
+    ],
+
+    [
+      "r",
+      "Możesz w tym miejscy odwrócićsie i odejść. Lub, otworz głowe oraz serce i idźmy dalej. Pamietaj, opieramy sie tu wyłacznie na biblii. Nic nie wymyślamy. Prawda jest taka, ze rodzimy sie w danej wierze i często powielamy tradycje nie rozumiejąc skąd wywodzi i czy ma sens?!",
+      "",
+    ], //if EMPTY reaction slot then skip to next.
   ],
-  stageP2: ["", ["", "", ""], "", ["", "", ""]],
+  stage2P2: [
+    "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj prosze List do Galacjan rozdzial 1 wersy: 6-9",
+  ],
+  stage3: ["", ["", "", ""], "", ["", "", ""]],
+  stage4: ["", ["", "", ""], "", ["", "", ""]],
+  stage5: ["", ["", "", ""], "", ["", "", ""]],
 };
+
+const displayState = {
+  headers: [
+    "intro",
+    "stage1",
+    "stage2",
+    "stage2P1",
+    "stage2P2",
+    "stage3",
+    "",
+    "",
+  ],
+  qqEl: "",
+  respEl1: "",
+  respEl2: "",
+  userChoice: 0,
+};
+
+export const currIndex = function () {};
