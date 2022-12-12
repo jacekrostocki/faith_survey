@@ -69,14 +69,56 @@ const init = function () {
 };
 init();
 /////////////////////////////////////////////
+const currStageName = state.headers[state.stageC];
+const currQA = state.survey[currStageName];
 
-export const currPosition = function () {
-  const currStageName = state.headers[state.stageC];
-  const currQA = state.survey[currStageName];
+export const currStagePosition = function () {
+  if (currQA.length === state.innerStageC) state.stageC++;
 
-  if (currQA.length === innerStageC) state.stageC++;
+  console.log(state.innerStageC, state.stageC);
 };
 
-export const displayState = function () {
+const _clearCurrentState = function () {
+  state.qqEl = "";
+  state.respEl1 = "";
+  state.respEl2 = "";
+};
+
+export const pushIntoState = function () {
   //clear state before iterration, user submission
+  _clearCurrentState();
+
+  //DISPLAY AS Q if single element inside current stage
+  if (!Array.isArray(currQA[state.innerStageC]))
+    state.qqEl = currQA[state.innerStageC];
+  console.log(state.qqEl);
+
+  if (
+    Array.isArray(currQA[state.innerStageC]) &&
+    currQA[state.innerStageC][0] === "o"
+  ) {
+    state.respEl1 = currQA[state.innerStageC][1];
+    state.respEl2 = currQA[state.innerStageC][2];
+    console.log(state.respEl1, state.respEl2);
+  }
+  if (
+    Array.isArray(currQA[state.innerStageC]) &&
+    currQA[state.innerStageC][0] === "r"
+  )
+    state.qqEl = currQA[state.userChoice];
+
+  if (
+    Array.isArray(currQA[state.innerStageC]) &&
+    currQA[state.innerStageC][0] === "o/P"
+  ) {
+    state.respEl1 = currQA[state.innerStageC][1];
+    state.respEl2 = currQA[state.innerStageC][2];
+    //run through headers arr and delet all P# that werent picked by user
+    const newArr =[];
+    state.headers.forEach(el =>{if (el.contains(`${currQA}`) && el!==`${currQA}P${state.userChoice}`) });
+  }
+
+  //invoke stage counter + increase innerStageCounter
+  currStagePosition();
+  state.innerStageC++;
 };

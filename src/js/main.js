@@ -4,7 +4,9 @@ import * as model from "./model";
 import view from "./view";
 
 const controlSubmit = function () {
-  model.currPosition();
+  model.currStagePosition();
+
+  model.pushIntoState();
 };
 
 const init = function () {
