@@ -136,29 +136,16 @@ export const pushIntoState = function () {
 };
 
 export const pathSelectArrAdjust = function () {
-  if (!state.pathSelection === 1) return;
-  const selectedPathIndex = [];
-  state.headers.forEach((el, i) => {
+  if (state.pathSelection === 0) return;
+
+  for (const [i, el] of state.headers.entries()) {
     if (
       el.includes(`${state.headers[state.stageC]}`) &&
       state.userChoice !== 0 &&
-      el !== String(`${state.headers[state.stageC]}P${state.userChoice}`)
-    ) {
-      selectedPathIndex.push(el);
-      console.log(
-        el.includes(`${state.headers[state.stageC]}`),
-        String(`${state.headers[state.stageC]}P${state.userChoice}`)
-      );
-    }
-  });
+      el.slice(-1) !== state.userChoice.toString()
+    )
+      state.headers.splice(i, 1);
+  }
 
-  //run through headers arr and delet all P# that werent picked by user
-  //   const headersAdjust = state.headers.map((el, i) => {
-  //     if (
-  //       el.includes(`${state.headers[state.stageC]}`) &&
-  //       el !== String(`${state.headers[state.stageC]}P${state.userChoice}`)
-  //     )
-  //   });
-
-  console.log(selectedPathIndex);
+  state.pathSelection = 0;
 };
