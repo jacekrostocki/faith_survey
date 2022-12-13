@@ -37,13 +37,22 @@ class View {
     });
   }
 
-  responsFormattingTextHighlight() {
+  responseTextHighlight() {
     document
       .querySelectorAll(".response")
       .forEach((el) => el.classList.add("text-muted"));
     document
       .querySelectorAll(".response")
       .forEach((el) => el.classList.remove("bg-secondary", "text-white"));
+  }
+
+  btnIconSwitch(userChoice, stateQQ) {
+    if (userChoice === 0 && stateQQ !== "")
+      this._btn.innerText = "(☞ﾟヮﾟ)☞ dalej!";
+    if (userChoice === 0 && stateQQ === "")
+      this._btn.innerText = "wybierz coś 🤷‍♂️";
+    if (userChoice !== 0 && stateQQ === "")
+      this._btn.innerText = "✔zatwierdź i dalej!🙌";
   }
 
   _clearQQ() {
