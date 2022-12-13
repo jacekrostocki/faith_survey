@@ -4,6 +4,8 @@ import * as model from "./model";
 import view from "./view";
 
 const controlSubmit = function () {
+  //add formating - deem text in responses
+  responsFormattingTextHighlight();
   //PUSH INTO STATE CURRENT ITEM
   model.pushIntoState();
   //render QUESTION / RESPONSES

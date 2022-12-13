@@ -11,25 +11,39 @@ class View {
     });
   }
 
-  _highlightClear() {
-    this._responseEl1.classList.remove("bd-highlight");
-    this._responseEl2.classList.remove("bd-highlight");
+  addHandlerUserChoice(handler) {
+    this._responseEl1.addEventListener("click", function (e) {
+      //RESET ALL HIGHLIGHTS- refactore
+      document
+        .querySelectorAll(".response")
+        .forEach((el) =>
+          el.classList.remove("bg-secondary", "text-white", "text-muted")
+        );
+
+      e.target.classList.add("bg-secondary", "text-white");
+      handler(e.target.dataset.num);
+    });
+    this._responseEl2.addEventListener("click", function (e) {
+      //RESET ALL HIGHLIGHTS - refactore
+      document
+        .querySelectorAll(".response")
+        .forEach((el) =>
+          el.classList.remove("bg-secondary", "text-white", "text-muted")
+        );
+
+      e.target.classList.add("bg-secondary", "text-white");
+      console.log(e.target);
+      handler(e.target.dataset.num);
+    });
   }
 
-  addHandlerUserChoice(handler) {
-    this._responseSection.addEventListener("click", function (e) {
-      console.log(e.target, this._responseEl1);
-      if (e.target === this._responseEl1) {
-        this._highlightClear();
-        this._responseEl1.classList.add("bd-highlight");
-        handler(this._responseEl1.dataset.num);
-      }
-      if (e.target === this._responseEl2) {
-        this._highlightClear();
-        this._responseEl2.classList.add("bd-highlight");
-        handler(this._responseEl1.dataset.num);
-      }
-    });
+  responsFormattingTextHighlight() {
+    document
+      .querySelectorAll(".response")
+      .forEach((el) => el.classList.add("text-muted"));
+    document
+      .querySelectorAll(".response")
+      .forEach((el) => el.classList.remove("bg-secondary", "text-white"));
   }
 
   _clearQQ() {
