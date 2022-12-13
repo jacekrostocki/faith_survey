@@ -137,15 +137,16 @@ export const pushIntoState = function () {
 
 export const pathSelectArrAdjust = function () {
   if (state.pathSelection === 0) return;
+  console.log(state.headers[state.stageC - 1]);
 
   for (const [i, el] of state.headers.entries()) {
     if (
-      el.includes(`${state.headers[state.stageC]}`) &&
+      el.includes(`${state.headers[state.stageC - 1]}P`) &&
       state.userChoice !== 0 &&
       el.slice(-1) !== state.userChoice.toString()
     )
       state.headers.splice(i, 1);
   }
-
+  console.log(state.headers);
   state.pathSelection = 0;
 };
