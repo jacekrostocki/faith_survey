@@ -56,6 +56,7 @@ export const state = {
   stageC: 0,
   innerStageC: 0,
   userChoice: 0,
+  pathSelection: 0,
 };
 
 //////////////////////////////////////////
@@ -101,7 +102,6 @@ export const pushIntoState = function () {
   if (!Array.isArray(currQA[state.innerStageC])) {
     _clearCurrentRR();
     state.qqEl = currQA[state.innerStageC];
-    console.log(state.qqEl);
   }
 
   if (
@@ -111,7 +111,6 @@ export const pushIntoState = function () {
     _clearCurrentQQ();
     state.respEl1 = currQA[state.innerStageC][1];
     state.respEl2 = currQA[state.innerStageC][2];
-    console.log(state.respEl1, state.respEl2);
   }
   if (
     Array.isArray(currQA[state.innerStageC]) &&
@@ -119,12 +118,6 @@ export const pushIntoState = function () {
   ) {
     _clearCurrentRR();
     state.qqEl = currQA[state.innerStageC][state.userChoice];
-    console.log(
-      "r !!!!!!",
-      state.qqEl,
-      Array.isArray(currQA[state.innerStageC]) &&
-        currQA[state.innerStageC][0] === "r"
-    );
   }
 
   if (
@@ -134,19 +127,38 @@ export const pushIntoState = function () {
     _clearCurrentQQ();
     state.respEl1 = currQA[state.innerStageC][1];
     state.respEl2 = currQA[state.innerStageC][2];
-    //run through headers arr and delet all P# that werent picked by user
-    const currentStage = state.headers[state.stageC];
-    const newArr = state.headers.forEach((el, i) => {
-      if (
-        el.includes(`${currentStage}`) &&
-        el !== String(`${currentStage}P${state.userChoice}`)
-      )
-        state.headers.splice(i, 1);
-    });
-    console.log(state.headers, newArr);
+    state.pathSelection = 1;
   }
 
   //invoke stage counter + increase innerStageCounter
   state.innerStageC++;
   currStagePosition();
+};
+
+export const pathSelectArrAdjust = function () {
+  if (!state.pathSelection === 1) return;
+  const selectedPathIndex = [];
+  state.headers.forEach((el, i) => {
+    if (
+      el.includes(`${state.headers[state.stageC]}`) &&
+      state.userChoice !== 0 &&
+      el !== String(`${state.headers[state.stageC]}P${state.userChoice}`)
+    ) {
+      selectedPathIndex.push(el);
+      console.log(
+        el.includes(`${state.headers[state.stageC]}`),
+        String(`${state.headers[state.stageC]}P${state.userChoice}`)
+      );
+    }
+  });
+
+  //run through headers arr and delet all P# that werent picked by user
+  //   const headersAdjust = state.headers.map((el, i) => {
+  //     if (
+  //       el.includes(`${state.headers[state.stageC]}`) &&
+  //       el !== String(`${state.headers[state.stageC]}P${state.userChoice}`)
+  //     )
+  //   });
+
+  console.log(selectedPathIndex);
 };

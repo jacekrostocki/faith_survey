@@ -11,13 +11,17 @@ const controlSubmit = function () {
   //render QUESTION / RESPONSES
   view.renderQQ(model.state.qqEl);
   view.renderRR(model.state.respEl1, model.state.respEl2);
-
+  model.pathSelectArrAdjust();
+  //reset user selection num in state ater submission.
+  model.userSelectionIntoState(0);
   //button icon change depends what is displayed
   view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
 };
 
 const controlUserSelection = function (data) {
   model.userSelectionIntoState(data);
+  //btn icon refresh, update
+  view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
 };
 
 const init = function () {
