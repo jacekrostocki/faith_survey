@@ -32,7 +32,6 @@ class View {
         );
 
       e.target.classList.add("bg-secondary", "text-white");
-      console.log(e.target);
       handler(e.target.dataset.num);
     });
   }
@@ -47,12 +46,23 @@ class View {
   }
 
   btnIconSwitch(userChoice, stateQQ) {
-    if (userChoice === 0 && stateQQ !== "")
+    if (userChoice === 0 && stateQQ !== "") {
       this._btn.innerText = "(☞ﾟヮﾟ)☞ dalej!";
-    if (userChoice === 0 && stateQQ === "")
+      this._btnDisableEnable(false);
+    }
+
+    if (userChoice === 0 && stateQQ === "") {
       this._btn.innerText = "wybierz coś 🤷‍♂️";
-    if (userChoice !== 0 && stateQQ === "")
+      this._btnDisableEnable(true);
+    }
+
+    if (userChoice !== 0 && stateQQ === "") {
       this._btn.innerText = "✔zatwierdź i dalej!🙌";
+      this._btnDisableEnable(false);
+    }
+  }
+  _btnDisableEnable(boolean) {
+    this._btn.disabled = boolean;
   }
 
   _clearQQ() {

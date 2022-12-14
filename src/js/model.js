@@ -150,3 +150,7 @@ export const pathSelectArrAdjust = function () {
   console.log(state.headers);
   state.pathSelection = 0;
 };
+
+export const userSelectionReset = function () {
+  if (state.qqEl !== "") state.userChoice = 0;
+};
