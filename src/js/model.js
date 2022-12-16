@@ -1,50 +1,59 @@
 export const state = {
   survey: {
     intro: [
-      "Jestes Katolikiem?",
+      "Dla pewności, czy uważasz się za katolika/czkę?",
       ["o", "Tak", "Nie"],
-      "Gotowy na szybki test wiary?",
+      [
+        "r",
+        "W takim razie, gotowy na szybki test wiary?",
+        "Nic nie szkodzi. Wiedzy o Bogu i jego słowie vs doktryny kościoła katolickiego - nigdy za wiele 😁😂. To co, bierzesz udział!?",
+      ],
+
       ["o", "Tak", "Jasne, ze tak!"],
-      "Noo tooo, lecimyyyy ;0!!",
+      "No to, lecimyyyy 🚀!!!",
     ],
     stage1: [
-      "Czy wiesz gdzie w Biblii zawarte jest 10 przykazan?",
+      "Czy wiesz gdzie w biblii zawarte jest 10 przykazan?",
       [
         "o",
         "Nowy Testament, ew. Jana?",
-        "Stary Testament ks Wyjscia rodzial 8 (od wersu 4)?",
+        "Stary Testament ks. Wyjścia rozdział 20 (od wersu 4)?",
       ],
       [
         "r",
-        "Upsik! Są opisane w ks. Wyjscia., ale nic się nie martw bo i tak lecimy dalej! No i poczytaj ew. Jana bo wyrywa z butów :D!",
+        "Upsik! Są opisane w ks. Wyjscia, ale nic się nie martw bo i tak lecimy dalej! No i poczytaj ew. Jana bo wyrywa z butów :D!",
         "Brawo! Lecimy zatem dalej!",
       ],
-      "Teraz, potrzebujemy abys przeczytal tresc 2 przykazania w biblii (Ks. Wyjscia rozdzial 20 wersy: 4-6). Twoje wnioski, przemyslenia sa kluczowe w nastepnym etapie. ",
-      "Wnioski: przykazania orpacowane przez kosciol Rzymsko-Katolicki (wy-googluj dla porownania ;)) róźnią sie od tych biblijnych",
+      "Teraz, potrzebujemy abyś przeczytał treść 2 przykazania w biblii (Ks. Wyjscia rozdzial 20 wersy: 4-6). Twoje wnioski będą kluczowe w kolejnych krokach",
+      "✨WNIOSKI✨ na wynos: przykazania orpacowane przez koscioł Rzymsko-Katolicki róźnią sie od tych biblijnych! 🥴",
     ],
     stage2: [
-      "Co myslisz na ten temat?",
-      ["o/P", "Jest to detal", "Nie wiedziałem/am"],
+      "Teraz jesteśmy ciekawi co myślisz na ten temat? Czy jest to coś znaczącego w twoim mniemaniu?",
+      [
+        "o/P",
+        "Jest to detal, który nie wzbudza większych refleksji",
+        "Nie wiedziałem/am o tym fakcie 🤔",
+      ],
     ],
     stage2P1: [
-      "Przeczytaj to i wroc zeby odpowiedz dalej: List do Galacjan rozdzial 1 wersy: 6-9 (15 sekund czytania :)). Czy ma to jakis wplyw na Ciebie? Refleksje?",
+      "W takim razie, przeczytaj prosze (krótki fragment) i wróć żeby odpowiedzieć dalej:(⓿_⓿) List do Galacjan rozdzial 1 wersy: 6-9 (15 sekund czytania :)). Czy ma to jakis wplyw na Ciebie? Refleksje?",
 
       [
         "o",
-        "Papież wie co robi i ma moje zaufanie!",
-        "Masz moją uwage, jestem ciekaw co w trawie piszczy :)",
+        "Uważam, że papież wie co robi i ma moje zaufanie!",
+        "Masz moją uwagę! Zobaczmy co dalej w trawie piszczy 👍",
       ],
 
       [
         "r",
-        "Możesz w tym miejscy odwrócićsie i odejść. Lub, otworz głowe oraz serce i idźmy dalej. Pamietaj, opieramy sie tu wyłacznie na biblii. Nic nie wymyślamy. Prawda jest taka, ze rodzimy sie w danej wierze i często powielamy tradycje nie rozumiejąc skąd wywodzi i czy ma sens?!",
+        "Stoisz właśnie rozstaju dróg 🗺. W tym miejscy możesz się odwrócić i odejść z fochem, luuub (▀̿Ĺ̯▀̿ ̿) otwórz głowę oraz serce i idziemy dalej. Pamietaj, opieramy się tu wyłacznie na książce, która jest bestsellerem=biblii. Prawda jest taka, że rodzimy sie w danej wierze i często powielamy tradycje nie rozumiejąc skąd wywodzi i czy ma sens?! NIe zadajemy pytań i nie szukamy u źródła😢",
         "",
       ], //if EMPTY reaction slot then skip to next.
     ],
     stage2P2: [
       "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj prosze List do Galacjan rozdzial 1 wersy: 6-9",
     ],
-    stage3: ["Fajnie ze jestes!!!!!!!!!!!!", ["", "", ""], "", ["", "", ""]],
+    stage3: ["Skoro", ["", "", ""], "", ["", "", ""]],
     stage4: ["", ["", "", ""], "", ["", "", ""]],
     stage5: ["", ["", "", ""], "", ["", "", ""]],
   },
@@ -57,6 +66,7 @@ export const state = {
   innerStageC: 0,
   userChoice: 0,
   pathSelection: 0,
+  invokeDryRun: 0,
 };
 
 //////////////////////////////////////////
@@ -95,6 +105,7 @@ const _clearCurrentQQ = function () {
 
 export const pushIntoState = function () {
   const currQA = state.survey[state.headers[state.stageC]];
+  console.log(state.stageC, state.innerStageC);
   //clear state before iterration, user submission
   _clearCurrentRR();
   _clearCurrentQQ();
@@ -117,7 +128,11 @@ export const pushIntoState = function () {
     currQA[state.innerStageC][0] === "r"
   ) {
     _clearCurrentRR();
-    state.qqEl = currQA[state.innerStageC][state.userChoice];
+    if (currQA[state.innerStageC][state.userChoice] !== "")
+      state.qqEl = currQA[state.innerStageC][state.userChoice];
+    if (currQA[state.innerStageC][state.userChoice] === "") {
+      state.invokeDryRun = 1;
+    }
   }
 
   if (
@@ -133,6 +148,7 @@ export const pushIntoState = function () {
   //invoke stage counter + increase innerStageCounter
   state.innerStageC++;
   currStagePosition();
+  console.log(state.stageC, state.innerStageC);
 };
 
 export const pathSelectArrAdjust = function () {

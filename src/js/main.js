@@ -3,6 +3,8 @@ import * as bootstrap from "bootstrap";
 import * as model from "./model";
 import view from "./view";
 
+if (model.invokeDryRun === 1) controlSubmit();
+
 const controlSubmit = function () {
   //reset user choice after submit
   model.userSelectionReset(0);
@@ -21,15 +23,16 @@ const controlSubmit = function () {
   model.userSelectionReset(0);
   //button icon change depends what is displayed
   view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
-  console.log("submit btn", model.state.userChoice, model.state.qqEl);
 };
 
 const controlUserSelection = function (data) {
   model.userSelectionIntoState(data);
   //btn icon refresh, update based on 2 conditions:1)if user selected sth 2) if qq state is filled with qq to display
   view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
-  console.log(model.state.userChoice, model.state.qqEl);
 };
+
+//invoke controlSubmit if certain condition is met in question/answer survey.
+// model.invokeControlSubmitF(controlSubmit);
 
 const init = function () {
   view.addHandlerSubmitBtn(controlSubmit);
