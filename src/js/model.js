@@ -47,13 +47,13 @@ export const state = {
       [
         "r",
         "Stoisz właśnie rozstaju dróg 🗺. W tym miejscy możesz się odwrócić i odejść z fochem, luuub (▀̿Ĺ̯▀̿ ̿) otwórz głowę oraz serce i idziemy dalej. Pamietaj, opieramy się tu wyłacznie na książce, która jest bestsellerem=biblii. Prawda jest taka, że rodzimy sie w danej wierze i często powielamy tradycje nie rozumiejąc skąd wywodzi i czy ma sens?! NIe zadajemy pytań i nie szukamy u źródła😢",
-        "",
+        "no to nie traćmy czasu zatem i jedziemy 😎",
       ], //if EMPTY reaction slot then skip to next.
     ],
     stage2P2: [
       "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj prosze List do Galacjan rozdzial 1 wersy: 6-9",
     ],
-    stage3: ["Skoro", ["", "", ""], "", ["", "", ""]],
+    stage3: ["", ["", "", ""], "", ["", "", ""]],
     stage4: ["", ["", "", ""], "", ["", "", ""]],
     stage5: ["", ["", "", ""], "", ["", "", ""]],
   },
@@ -66,8 +66,13 @@ export const state = {
   innerStageC: 0,
   userChoice: 0,
   pathSelection: 0,
-  invokeDryRun: 0,
+  progress: "",
 };
+
+//FEATURES
+//1.save and restore from local storage / reset btn
+//2. go back btn
+//3. Shortcut - modal - reveal message 'call on Jesus and invite Him to your life (trully repent and believe)
 
 //////////////////////////////////////////
 const headersArrCreateInit = function () {
@@ -75,12 +80,58 @@ const headersArrCreateInit = function () {
   //   console.log(state.headers);
 };
 //INITIALIZE
+
 const init = function () {
   headersArrCreateInit();
 };
 init();
 /////////////////////////////////////////////
 // stage name =  state.headers[state.stageC];
+
+const saveProgress = function () {
+  state.progress = {
+    stageC: state.stageC,
+    innerStageC: state.innerStageC,
+    userChoice: state.userChoice,
+    pathSelection: state.pathSelection,
+  };
+};
+
+const localStorageSet = function () {
+  const currQA = state.survey[state.headers[state.stageC]];
+  //We save only QQ = not arrays / single string value/property
+  if (Array.isArray(currQA[state.innerStageC])) return;
+  localStorageClear();
+  saveProgress();
+  console.log("local St SET");
+  localStorage.setItem("progress", JSON.stringify(state.progress));
+};
+
+export const localStorageGet = function () {
+  const data = JSON.parse(localStorage.getItem("progress"));
+
+  //GUARD
+  if (data) {
+    console.log("local ST GET invoked: data saved", data);
+    state.stageC = data["stageC"];
+    state.innerStageC = data["innerStageC"];
+    state.userChoice = data["userChoice"];
+    state.pathSelection = data["pathSelection"];
+    restoreMark(true);
+  }
+};
+
+export const restoreMark = function (boolean) {
+  state.progress = boolean;
+};
+
+export const localStorageClear = function () {
+  localStorage.clear("progress");
+  state.stageC = 0;
+  state.innerStageC = 0;
+  state.userChoice = 0;
+  state.pathSelection = 0;
+};
 
 export const currStagePosition = function () {
   const currQA = state.survey[state.headers[state.stageC]];
@@ -130,9 +181,6 @@ export const pushIntoState = function () {
     _clearCurrentRR();
     if (currQA[state.innerStageC][state.userChoice] !== "")
       state.qqEl = currQA[state.innerStageC][state.userChoice];
-    if (currQA[state.innerStageC][state.userChoice] === "") {
-      state.invokeDryRun = 1;
-    }
   }
 
   if (
@@ -145,7 +193,11 @@ export const pushIntoState = function () {
     state.pathSelection = 1;
   }
 
+  localStorageSet(); //backup only on Question mark
   //invoke stage counter + increase innerStageCounter
+  console.log("state.progress before IF TRUE check", state.progress);
+  if (state.progress === true) return;
+  console.log("state.progress after IF TRUE check", state.progress);
   state.innerStageC++;
   currStagePosition();
   console.log(state.stageC, state.innerStageC);

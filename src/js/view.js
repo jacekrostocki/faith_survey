@@ -3,7 +3,10 @@ class View {
   _responseEl1 = document.querySelector(".response--1");
   _responseEl2 = document.querySelector(".response--2");
   _question = document.querySelector(".question");
-  _btn = document.querySelector(".btn");
+  _btn = document.querySelector(".btn-survay");
+  _btnRestore = document.querySelector(".btn-restore");
+  _btnResturn = document.querySelector(".btn-return");
+  _btnReset = document.querySelector(".btn-reset");
 
   addHandlerSubmitBtn(handler) {
     this._btn.addEventListener("click", function (e) {
@@ -36,13 +39,24 @@ class View {
     });
   }
 
+  addHandlerRestoreBtn(handler) {
+    this._btnRestore.addEventListener("click", function (e) {
+      handler();
+    });
+  }
+
+  addHandlerResetBtn(handler) {
+    this._btnReset.addEventListener("click", function (e) {
+      handler();
+    });
+  }
+
   responseTextHighlight() {
-    document
-      .querySelectorAll(".response")
-      .forEach((el) => el.classList.add("text-muted"));
-    document
-      .querySelectorAll(".response")
-      .forEach((el) => el.classList.remove("bg-secondary", "text-white"));
+    const responses = document.querySelectorAll(".response");
+    responses.forEach((el) => el.classList.add("text-muted"));
+    responses.forEach((el) =>
+      el.classList.remove("bg-secondary", "text-white")
+    );
   }
 
   btnIconSwitch(userChoice, stateQQ) {

@@ -8,7 +8,36 @@
     <script type="module" src="js/main.js"></script>
   </head>
   <body>
-    <nav></nav>
+    <nav class="navbar sticky-top navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"
+          ><button
+            type="button"
+            class="btn btn-return btn-outline-secondary"
+            alt="cofnij się o krok"
+          >
+            ☜powrót
+          </button></a
+        >
+        <a class="navbar-brand" href="#"
+          ><button
+            type="button"
+            class="btn btn-restore btn-outline-secondary"
+            alt="Wrócisz na ostnie pytanie na które udzielałeś odpowiedzi :D"
+          >
+            Przywróć
+          </button></a
+        ><a class="navbar-brand" href="#"
+          ><button
+            type="button"
+            class="btn btn-reset btn-outline-warning"
+            alt="Reset"
+          >
+            reset
+          </button></a
+        >
+      </div>
+    </nav>
 
     <div
       class="container mx-auto my-4 vertical-center"
@@ -17,7 +46,7 @@
       <div
         class="survey shadow-lg p-3 mb-5 bg-body rounded container-md text-center"
       >
-        <div class="question">
+        <div class="question px-1 py-1">
           Witam Cię w teście wiary dla katolika 😎.
           <p>
             Sprawdźczy jesteś na wąskiej drodze do nieba, gdyż szeroka wjedzie
@@ -28,18 +57,22 @@
             zobaczysz czy jestes na WĄSKIEJ lub SZEROKIEJ drodze 🤗
           </p>
         </div>
-        <div class="response-section">
-          <div class="response response--1 text-muted my-3" data-num="1"></div>
-          <div class="response response--2 text-muted my-3" data-num="2"></div>
-          <span
-            ><button
-              type="button"
-              class="btn btn-secondary position-absolute top-50 start-50 translate-middle"
-            >
-              😇 Startujemy!
-            </button></span
-          >
+        <div class="response-section position-relative px-3 py-3">
+          <div
+            class="response response--1 text-muted px-2 py-2"
+            data-num="1"
+          ></div>
+          <div
+            class="response response--2 text-muted px-2 py-2"
+            data-num="2"
+          ></div>
         </div>
+        <button
+          type="button"
+          class="btn-survay btn btn-secondary position-absolute translate-middle my-4"
+        >
+          😇 Startujemy!
+        </button>
       </div>
     </div>
   </body>

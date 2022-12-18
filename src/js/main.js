@@ -1,9 +1,8 @@
 // Import all of Bootstrap's JS
 import * as bootstrap from "bootstrap";
+// import { Tooltip } from "bootstrap";
 import * as model from "./model";
 import view from "./view";
-
-if (model.invokeDryRun === 1) controlSubmit();
 
 const controlSubmit = function () {
   //reset user choice after submit
@@ -31,11 +30,21 @@ const controlUserSelection = function (data) {
   view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
 };
 
-//invoke controlSubmit if certain condition is met in question/answer survey.
-// model.invokeControlSubmitF(controlSubmit);
+const controlProgressRestore = function () {
+  model.localStorageGet();
+  controlSubmit();
+  model.restoreMark(false);
+};
+
+const controlResetForm = function () {
+  model.localStorageClear();
+  controlSubmit();
+};
 
 const init = function () {
   view.addHandlerSubmitBtn(controlSubmit);
   view.addHandlerUserChoice(controlUserSelection);
+  view.addHandlerRestoreBtn(controlProgressRestore);
+  view.addHandlerResetBtn(controlResetForm);
 };
 init();
