@@ -52,8 +52,15 @@ export const state = {
     ],
     stage2P2: [
       "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj krótki fragment: List do Galacjan rozdzial 1 wersy: 6-9",
+      "Od dzisiaj, zrób nawyk czytania biblii po rozdziale czy wiecej. Zobaczysz więcej smaczków i pewnych zgrzytów.",
+      "W kolejnej części, zobaczymy kolejny przykład rzucający się w oczy 👀. Tylko nadmienimy, że bardzo pomocne w analizie obecnje sytuacji i aby pomóc to zrozumieć (odpowiedzieć sobie czemu?! jak to możliwe?!) - jest poznanie historii Rzymu, wczesnego chrześcijaństwa (prześladowań). Bedzie to wyśmienity początek do poznania praktycznego odzwierciedlenia powiedzenia 'wilk w owczej skorze' - Jezus ostrzegał dużo razy w swojej ewangelii.",
     ],
-    stage3: ["", ["", "", ""], "", ["", "", ""]],
+    stage3: [
+      "Serdeczne GRATULACJE 👍✨🎉🎉 że doszedłeś tak daleko. Oznacza to jedno, że nie padłeś ofiarą 'dysonasy poznawczewgo'! Duma nas rozpiera! Klikaj dalej i nie ruszajmy w dalszą przygodę! ",
+      ["", "", ""],
+      "",
+      ["", "", ""],
+    ],
     stage4: ["", ["", "", ""], "", ["", "", ""]],
     stage5: [
       "Biblia to podstawa wiary. Zacznij czytać pismo zaczynając od Nowego Testamentu i poznaj czego nauczał Jezus. W miarę jedzenia, zobaczysz, że nauki katechizmu odbiegają od norm Jezusowych. Najgorsze co można zrobić to wybrać ignorancję oraz ślepe zaufanie do obrządków religijnych. Jezeli jesteś nadal z nami, to klikaj dalej 🧨👓!",
