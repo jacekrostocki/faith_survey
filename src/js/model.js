@@ -47,15 +47,19 @@ export const state = {
       [
         "r",
         "Stoisz właśnie rozstaju dróg 🗺. W tym miejscy możesz się odwrócić i odejść z fochem, luuub (▀̿Ĺ̯▀̿ ̿) otwórz głowę oraz serce i idziemy dalej. Pamietaj, opieramy się tu wyłacznie na książce, która jest bestsellerem=biblii. Prawda jest taka, że rodzimy sie w danej wierze i często powielamy tradycje nie rozumiejąc skąd wywodzi i czy ma sens?! NIe zadajemy pytań i nie szukamy u źródła😢",
-        "no to nie traćmy czasu zatem i jedziemy 😎",
+        "pssssyyt... tak wogóle, jesteśmy dumni że nadal z nami jesteś 😎",
       ], //if EMPTY reaction slot then skip to next.
     ],
     stage2P2: [
-      "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj prosze List do Galacjan rozdzial 1 wersy: 6-9",
+      "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj krótki fragment: List do Galacjan rozdzial 1 wersy: 6-9",
     ],
     stage3: ["", ["", "", ""], "", ["", "", ""]],
     stage4: ["", ["", "", ""], "", ["", "", ""]],
-    stage5: ["", ["", "", ""], "", ["", "", ""]],
+    stage5: [
+      "Biblia to podstawa wiary. Zacznij czytać pismo zaczynając od Nowego Testamentu i poznaj czego nauczał Jezus. W miarę jedzenia, zobaczysz, że nauki katechizmu odbiegają od norm Jezusowych. Najgorsze co można zrobić to wybrać ignorancję oraz ślepe zaufanie do obrządków religijnych. Jezeli jesteś nadal z nami, to klikaj dalej 🧨👓!",
+      'Podobnie można zapytać każdego uczęszczjącego do kościoła czy rozumie skąd wziął się symbol np. choinki i jej dekorowania w okresie grudniowym skoro Jezus urodził się pare miesięcy wcześniej 🤔 (możesz poczytać o "Saturnalia").',
+      "Jak to się mówi - 'co za dużo to nie zdrowo' także wciel w życie poniższą instrukcje i wszystko będzie git fasola 😚: <br> 1. Zaproś Jezusa do swojego życia i powiedz ",
+    ],
   },
 
   headers: [],
