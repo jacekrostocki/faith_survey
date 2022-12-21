@@ -13,6 +13,12 @@ class View {
     this._initPrevView();
   }
 
+  addHandlerReturnBtn(handler) {
+    this._btnResturn.addEventListener("click", function (e) {
+      handler();
+    });
+  }
+
   addHandlerSubmitBtn(handler) {
     this._btn.addEventListener("click", function (e) {
       handler();

@@ -1,6 +1,6 @@
 export const state = {
   survey: {
-    intro: [
+    stage0: [
       "Dla pewności, czy uważasz się za katolika/czkę?",
       ["o", "Tak", "Nie"],
       [
@@ -78,15 +78,9 @@ export const state = {
   progress: "",
 };
 
-//FEATURES
-//1.save and restore from local storage / reset btn
-//2. go back btn
-//3. Shortcut - modal - reveal message 'call on Jesus and invite Him to your life (trully repent and believe)
-
 //////////////////////////////////////////
 const headersArrCreateInit = function () {
   Object.keys(state.survey).forEach((stage) => state.headers.push(stage));
-  //   console.log(state.headers);
 };
 //INITIALIZE
 
@@ -96,6 +90,39 @@ const init = function () {
 init();
 /////////////////////////////////////////////
 // stage name =  state.headers[state.stageC];
+
+export const goBack = function () {
+  const sectionArr = state.survey[state.headers[state.stageC]];
+  const sectionName = state.headers[state.stageC];
+
+  //when  stage inlcude 'P' (means path selection) then by below we need to restore headers when user goes back to perhaps chose otherwise
+  if (sectionName.includes(`P`)) {
+    const elementsToRestore = Object.keys(state.survey).filter((stage) =>
+      stage.includes(sectionName.slice(sectionName.indexOf("P"), -1))
+    );
+    const headersToRetainLeft = state.headers.filter(
+      (el, i) => i < state.stageC
+    );
+    const headersToRetainRight = Object.keys(state.survey).filter((stage) => {
+      if (
+        !stage.includes(`P`) &&
+        stage.slice(5, stage.length) >= state.stageC * 1
+      ) {
+        return true;
+      }
+
+      if (
+        stage.includes(`P`) &&
+        stage.slice(5, stage.includes("P")) > state.stageC * 1
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    console.log(elementsToRestore, headersToRetainLeft, headersToRetainRight);
+  }
+};
 
 const saveProgress = function () {
   state.progress = {
