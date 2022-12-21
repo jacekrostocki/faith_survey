@@ -7,6 +7,11 @@ class View {
   _btnRestore = document.querySelector(".btn-restore");
   _btnResturn = document.querySelector(".btn-return");
   _btnReset = document.querySelector(".btn-reset");
+  _previewSection = document.querySelector(".preview-section");
+
+  constructor() {
+    this._initPrevView();
+  }
 
   addHandlerSubmitBtn(handler) {
     this._btn.addEventListener("click", function (e) {
@@ -87,15 +92,40 @@ class View {
     this._responseEl2.innerText = "";
   }
 
+  _initPrevView() {
+    this._previewSection.style.display = "none";
+  }
+
   renderQQ(question) {
-    this._clearQQ();
-    this._question.innerText = question;
+    if (question.length === 0) {
+      this._question.style.display = "none";
+    } else {
+      //preview section
+      this._previewSection.style.display = "none";
+      document.querySelector(".preview-question").innerText = question;
+
+      this._clearQQ();
+      this._question.innerText = question;
+      this._question.style.display = "initial";
+    }
   }
 
   renderRR(resp1, resp2) {
-    this._clearRR();
-    this._responseEl1.innerText = resp1;
-    this._responseEl2.innerText = resp2;
+    if (resp1.length === 0) {
+      console.log("QQ elem hide");
+      this._responseEl1.style.display = "none";
+      this._responseEl2.style.display = "none";
+    } else {
+      //preview section
+      this._previewSection.style.display = "initial";
+
+      this._clearRR();
+      this._responseEl1.innerText = resp1;
+      this._responseEl2.innerText = resp2;
+
+      this._responseEl1.style.display = "initial";
+      this._responseEl2.style.display = "initial";
+    }
   }
 }
 

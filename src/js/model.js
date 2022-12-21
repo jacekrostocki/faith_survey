@@ -51,21 +51,19 @@ export const state = {
       ], //if EMPTY reaction slot then skip to next.
     ],
     stage2P2: [
-      "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Przed kolejnym etapem, przeczytaj krótki fragment: List do Galacjan rozdzial 1 wersy: 6-9",
-      "Od dzisiaj, zrób nawyk czytania biblii po rozdziale czy wiecej. Zobaczysz więcej smaczków i pewnych zgrzytów.",
-      "W kolejnej części, zobaczymy kolejny przykład rzucający się w oczy 👀. Tylko nadmienimy, że bardzo pomocne w analizie obecnje sytuacji i aby pomóc to zrozumieć (odpowiedzieć sobie czemu?! jak to możliwe?!) - jest poznanie historii Rzymu, wczesnego chrześcijaństwa (prześladowań). Bedzie to wyśmienity początek do poznania praktycznego odzwierciedlenia powiedzenia 'wilk w owczej skorze' - Jezus ostrzegał dużo razy w swojej ewangelii.",
+      "Zawsze miło jest siegnąć u źródła i podstaw wiary chrześcijanskiej. Jako dopełnienie i podkreślenie faktu, że biblii się nie zmienia, przeczytaj krótki fragment: List do Galacjan rozdzial 1 wersy: 6-9.",
+      "Od dzisiaj, zrób nawyk czytania biblii. Zobaczysz więcej smaczków 😇.",
+      "W kolejnej części, zerknijmy na kolejny przykład który rzuca sie w 👀.",
     ],
     stage3: [
-      "Serdeczne GRATULACJE 👍✨🎉🎉 że doszedłeś tak daleko. Oznacza to jedno, że nie padłeś ofiarą 'dysonasy poznawczewgo'! Duma nas rozpiera! Klikaj dalej i nie ruszajmy w dalszą przygodę! ",
-      ["", "", ""],
-      "",
-      ["", "", ""],
+      "GRATULACJE 👍✨🎉🎉 że doszedłeś tak daleko. <br>Oznacza to jedno, że nie padłeś ofiarą swojego 'dysonasy poznawczewgo'! Duma nas rozpiera! Klikaj dalej i nie ruszajmy w dalszą przygodę! ",
     ],
-    stage4: ["", ["", "", ""], "", ["", "", ""]],
+    stage4: ["test", ["o", "test", "test"], "", ["r", "rrrr", "rrrrrr"]],
     stage5: [
       "Biblia to podstawa wiary. Zacznij czytać pismo zaczynając od Nowego Testamentu i poznaj czego nauczał Jezus. W miarę jedzenia, zobaczysz, że nauki katechizmu odbiegają od norm Jezusowych. Najgorsze co można zrobić to wybrać ignorancję oraz ślepe zaufanie do obrządków religijnych. Jezeli jesteś nadal z nami, to klikaj dalej 🧨👓!",
       'Podobnie można zapytać każdego uczęszczjącego do kościoła czy rozumie skąd wziął się symbol np. choinki i jej dekorowania w okresie grudniowym skoro Jezus urodził się pare miesięcy wcześniej 🤔 (możesz poczytać o "Saturnalia").',
       "Jak to się mówi - 'co za dużo to nie zdrowo' także wciel w życie poniższą instrukcje i wszystko będzie git fasola 😚: <br> 1. Zaproś Jezusa do swojego życia i powiedz ",
+      "Tylko nadmienimy, że bardzo pomocne w analizie obecnje sytuacji i aby pomóc to zrozumieć (odpowiedzieć sobie czemu?! jak to możliwe?!) - jest poznanie historii Rzymu, wczesnego chrześcijaństwa (prześladowań). Bedzie to wyśmienity początek do poznania praktycznego odzwierciedlenia powiedzenia 'wilk w owczej skorze' - Jezus ostrzegał dużo razy w swojej ewangelii.",
     ],
   },
 
@@ -114,7 +112,7 @@ const localStorageSet = function () {
   if (Array.isArray(currQA[state.innerStageC])) return;
   localStorageClear();
   saveProgress();
-  console.log("local St SET");
+  console.log("local St SET", state.progress);
   localStorage.setItem("progress", JSON.stringify(state.progress));
 };
 
@@ -138,10 +136,10 @@ export const restoreMark = function (boolean) {
 
 export const localStorageClear = function () {
   localStorage.clear("progress");
-  state.stageC = 0;
-  state.innerStageC = 0;
-  state.userChoice = 0;
-  state.pathSelection = 0;
+};
+
+export const resetForm = function () {
+  document.location.reload();
 };
 
 export const currStagePosition = function () {
@@ -206,7 +204,6 @@ export const pushIntoState = function () {
 
   localStorageSet(); //backup only on Question mark
   //invoke stage counter + increase innerStageCounter
-  console.log("state.progress before IF TRUE check", state.progress);
   if (state.progress === true) return;
   console.log("state.progress after IF TRUE check", state.progress);
   state.innerStageC++;

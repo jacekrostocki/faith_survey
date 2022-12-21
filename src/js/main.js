@@ -37,8 +37,7 @@ const controlProgressRestore = function () {
 };
 
 const controlResetForm = function () {
-  model.localStorageClear();
-  controlSubmit();
+  model.resetForm();
 };
 
 const init = function () {
