@@ -17,9 +17,6 @@ const controlSubmit = function () {
   //render QUESTION / RESPONSES
   view.renderQQ(model.state.qqEl);
   view.renderRR(model.state.respEl1, model.state.respEl2);
-
-  //reset user choice after submit so that below btn refresh can grab up to data (detect no user choice)
-  model.userSelectionReset(0);
   //button icon change depends what is displayed
   view.btnIconSwitch(model.state.userChoice, model.state.qqEl);
 };
@@ -40,19 +37,17 @@ const controlResetForm = function () {
   model.resetForm();
 };
 
-const controlReturnBtn = function () {
-  model.goBack();
-  controlSubmit();
-};
+// const controlReturnBtn = function () {
+//   model.goBack();
+//   controlSubmit();
+//   model.restoreMark(false);
+// };
 
 const init = function () {
   view.addHandlerSubmitBtn(controlSubmit);
   view.addHandlerUserChoice(controlUserSelection);
   view.addHandlerRestoreBtn(controlProgressRestore);
   view.addHandlerResetBtn(controlResetForm);
-  view.addHandlerReturnBtn(controlReturnBtn);
+  // view.addHandlerReturnBtn(controlReturnBtn);
 };
 init();
-
-const arrTest = [1, 2, 3, 4, 5];
-console.log("🎉😇", arrTest.slice(2, arrTest.length));

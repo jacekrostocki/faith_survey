@@ -11,13 +11,14 @@ class View {
 
   constructor() {
     this._initPrevView();
+    this._initQQonWelcome();
   }
 
-  addHandlerReturnBtn(handler) {
-    this._btnResturn.addEventListener("click", function (e) {
-      handler();
-    });
-  }
+  // addHandlerReturnBtn(handler) {
+  //   this._btnResturn.addEventListener("click", function (e) {
+  //     handler();
+  //   });
+  // }
 
   addHandlerSubmitBtn(handler) {
     this._btn.addEventListener("click", function (e) {
@@ -102,6 +103,11 @@ class View {
     this._previewSection.style.display = "none";
   }
 
+  _initQQonWelcome() {
+    this._responseEl1.style.display = "none";
+    this._responseEl2.style.display = "none";
+  }
+
   renderQQ(question) {
     if (question.length === 0) {
       this._question.style.display = "none";
@@ -118,7 +124,6 @@ class View {
 
   renderRR(resp1, resp2) {
     if (resp1.length === 0) {
-      console.log("QQ elem hide");
       this._responseEl1.style.display = "none";
       this._responseEl2.style.display = "none";
     } else {

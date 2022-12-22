@@ -71,6 +71,8 @@ export const state = {
   qqEl: "",
   respEl1: "",
   respEl2: "",
+  visibleStageIndex: 0,
+  visibleInnerIndex: 0,
   stageC: 0,
   innerStageC: 0,
   userChoice: 0,
@@ -91,38 +93,64 @@ init();
 /////////////////////////////////////////////
 // stage name =  state.headers[state.stageC];
 
-export const goBack = function () {
-  const sectionArr = state.survey[state.headers[state.stageC]];
-  const sectionName = state.headers[state.stageC];
+// export const goBack = function () {
+//   const sectionArr = state.survey[state.headers[state.stageC]];
+//   const sectionName = state.headers[state.stageC];
 
-  //when  stage inlcude 'P' (means path selection) then by below we need to restore headers when user goes back to perhaps chose otherwise
-  if (sectionName.includes(`P`)) {
-    const elementsToRestore = Object.keys(state.survey).filter((stage) =>
-      stage.includes(sectionName.slice(sectionName.indexOf("P"), -1))
-    );
-    const headersToRetainLeft = state.headers.filter(
-      (el, i) => i < state.stageC
-    );
-    const headersToRetainRight = Object.keys(state.survey).filter((stage) => {
-      if (
-        !stage.includes(`P`) &&
-        stage.slice(5, stage.length) >= state.stageC * 1
-      ) {
-        return true;
-      }
+//   ///RESTORE headers when go-back action is on stage with 'P' and will go back to prev stage when Paths were chosen
+//   if (sectionName.includes(`P`) && visibleInnerIndex === 0) {
+//     const elementsToRestore = Object.keys(state.survey).filter((stage) =>
+//       stage.includes(sectionName.slice(sectionName.indexOf("P"), -1))
+//     );
+//     const headersToRetainLeft = state.headers.filter(
+//       (el, i) => i < state.stageC
+//     );
+//     const headersToRetainRight = Object.keys(state.survey).filter((stage) => {
+//       if (
+//         !stage.includes(`P`) &&
+//         stage.slice(5, stage.length) >= state.stageC * 1
+//       ) {
+//         return true;
+//       }
 
-      if (
-        stage.includes(`P`) &&
-        stage.slice(5, stage.includes("P")) > state.stageC * 1
-      ) {
-        return true;
-      }
-      return false;
-    });
+//       if (
+//         stage.includes(`P`) &&
+//         stage.slice(5, stage.includes("P")) > state.stageC * 1
+//       ) {
+//         return true;
+//       }
+//       return false;
+//     });
+//     state.headers = [
+//       ...headersToRetainLeft,
+//       ...elementsToRestore,
+//       ...headersToRetainRight,
+//     ];
+//     state.stageC--;
+//     state.innerStageC = sectionArr.length;
+//     restoreMark(true);
+//     return;
+//   }
+//   if (!sectionName.includes(`P`) && state.visibleInnerIndex === 0) {
+//     console.log("goBack NOT incl P - start", state.stageC, state.innerStageC);
+//     state.stageC = state.visibleStageIndex;
+//     state.innerStageC = sectionArr.length;
+//     // state.innerStageC = sectionArr.length;
+//     restoreMark(true);
+//     console.log("goBack NOT incl P - end", state.stageC, state.innerStageC);
+//     return;
+//   }
+//   if (state.innerStageC === 0) {
+//     state.innerStageC = state.visibleInnerIndex;
+//     state.stageC = state.visibleStageIndex;
+//     state.innerStageC--;
+//     console.log("goBack NORMAL mode", state.innerStageC);
+//     restoreMark(true);
+//   }
 
-    console.log(elementsToRestore, headersToRetainLeft, headersToRetainRight);
-  }
-};
+//   state.innerStageC--;
+//   restoreMark(true);
+// };
 
 const saveProgress = function () {
   state.progress = {
@@ -139,7 +167,6 @@ const localStorageSet = function () {
   if (Array.isArray(currQA[state.innerStageC])) return;
   localStorageClear();
   saveProgress();
-  console.log("local St SET", state.progress);
   localStorage.setItem("progress", JSON.stringify(state.progress));
 };
 
@@ -148,7 +175,6 @@ export const localStorageGet = function () {
 
   //GUARD
   if (data) {
-    console.log("local ST GET invoked: data saved", data);
     state.stageC = data["stageC"];
     state.innerStageC = data["innerStageC"];
     state.userChoice = data["userChoice"];
@@ -179,7 +205,6 @@ export const currStagePosition = function () {
 
 export const userSelectionIntoState = function (data) {
   state.userChoice = data;
-  console.log(state.userChoice);
 };
 
 const _clearCurrentRR = function () {
@@ -228,16 +253,25 @@ export const pushIntoState = function () {
     state.respEl2 = currQA[state.innerStageC][2];
     state.pathSelection = 1;
   }
-
-  localStorageSet(); //backup only on Question mark
+  //visibleCurrentElem needed for 'go back' functionality and IF condiions. Need to capture actual element displayed. as push into state is designed to increase counter always at the bottom
+  // state.visibleStageIndex = state.stageC;
+  // state.visibleInnerIndex = state.innerStageC;
+  //backup only on Question mark
+  localStorageSet();
   //invoke stage counter + increase innerStageCounter
   if (state.progress === true) return;
-  console.log("state.progress after IF TRUE check", state.progress);
+
   state.innerStageC++;
   currStagePosition();
-  console.log(state.stageC, state.innerStageC);
+  console.log(
+    state.stageC,
+    state.innerStageC,
+    state.visibleStageIndex,
+    state.visibleInnerIndex
+  );
 };
 
+//ADJUSTING headers array - after path is selected, not used is removed from the array
 export const pathSelectArrAdjust = function () {
   if (state.pathSelection === 0) return;
   console.log(state.headers[state.stageC - 1]);
