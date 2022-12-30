@@ -3,6 +3,7 @@ import * as bootstrap from "bootstrap";
 import { Tooltip } from "bootstrap";
 import * as model from "./model";
 import view from "./view";
+import viewEditor from "./viewEditor";
 
 const controlSubmit = function () {
   //reset user choice after submit
@@ -37,17 +38,13 @@ const controlResetForm = function () {
   model.resetForm();
 };
 
-// const controlReturnBtn = function () {
-//   model.goBack();
-//   controlSubmit();
-//   model.restoreMark(false);
-// };
-
 const init = function () {
   view.addHandlerSubmitBtn(controlSubmit);
   view.addHandlerUserChoice(controlUserSelection);
   view.addHandlerRestoreBtn(controlProgressRestore);
   view.addHandlerResetBtn(controlResetForm);
-  // view.addHandlerReturnBtn(controlReturnBtn);
+
+  view.initPrevView();
+  view.initQQonWelcome();
 };
 init();

@@ -8,17 +8,7 @@ class View {
   _btnResturn = document.querySelector(".btn-return");
   _btnReset = document.querySelector(".btn-reset");
   _previewSection = document.querySelector(".preview-section");
-
-  constructor() {
-    this._initPrevView();
-    this._initQQonWelcome();
-  }
-
-  // addHandlerReturnBtn(handler) {
-  //   this._btnResturn.addEventListener("click", function (e) {
-  //     handler();
-  //   });
-  // }
+  _btnEdit = document.querySelector(".btn-edit");
 
   addHandlerSubmitBtn(handler) {
     this._btn.addEventListener("click", function (e) {
@@ -99,11 +89,11 @@ class View {
     this._responseEl2.innerText = "";
   }
 
-  _initPrevView() {
+  initPrevView() {
     this._previewSection.style.display = "none";
   }
 
-  _initQQonWelcome() {
+  initQQonWelcome() {
     this._responseEl1.style.display = "none";
     this._responseEl2.style.display = "none";
   }
