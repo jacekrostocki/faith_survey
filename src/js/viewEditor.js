@@ -1,6 +1,6 @@
 class ViewEditor {
   mainContainer = document.querySelector(".main-container");
-  _btnGenerate = document.querySelector(".btn-generate");
+  _btnGenerate = document.querySelector(".btn-generate-a");
 
   addHandlerEditorBtn(handler) {
     this._btnGenerate.addEventListener("click", function (e) {
@@ -24,6 +24,25 @@ class ViewEditor {
         );
       });
     });
+
+    //remove 'generate btn' and add 'edit' btn
+    this._btnGenerate.insertAdjacentHTML(
+      "afterend",
+      this._generateEditBtnMarkup()
+    );
+    this._btnGenerate.style.display = "none";
+  }
+
+  _generateEditBtnMarkup() {
+    return `<a class="navbar-brand" href="#"
+    ><button
+      type="button"
+      class="btn btn-edit btn-primary btn-sm"
+      alt=""
+    >
+      Edycja
+    </button></a
+  >`;
   }
 
   _generateStageMarkup(data) {
