@@ -32,3 +32,10 @@
 .container {
   max-width: 800px;
 }
+.btn-addElem {
+  position: absolute; /* this positions the button absolutely */
+
+  right: 0; /* this positions the button at the right of the div */
+  margin: 0; /* this removes any margins from the button */
+  transform: translateX(30%) translateY(-100%) translateZ(100px); /* this moves the button 50% outside of the div border and higher on the Z axis */
+}
