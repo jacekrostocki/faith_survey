@@ -2,11 +2,10 @@ class ViewEditor {
   mainContainer = document.querySelector(".main-container");
   _btnGenerate = document.querySelector(".btn-generate-a");
   _btnEdit = document.querySelector(".btn-edit");
+  elementCounter = 0;
 
-  addHandlerEditorBtn(handler) {
-    this._btnGenerate.addEventListener("click", function (e) {
-      handler();
-    });
+  constructor() {
+    this.addHandlerElementAddBtn();
   }
 
   render(data) {
@@ -34,22 +33,83 @@ class ViewEditor {
     this._btnGenerate.style.display = "none";
   }
 
-  enableEdit() {
-    //run through divs to add enbleEdit feautre
+  addHandlerEditorBtn(handler) {
+    this._btnGenerate.addEventListener("click", function (e) {
+      handler();
+    });
   }
 
   //FEATURES add plan
   //1. add EDIT functionality
   //1.A EDIT text // add new elements // save and set as current// keep previous version - history trial //retore
 
+  addHandlerElementAddBtn() {
+    const blankArrayInsert = this._generateInnerMarkup([
+      "o",
+      "Przykladowy tekst1",
+      "Przykladowy tekst2",
+    ]);
+    const blankSingleInsert = this._generateInnerMarkup(
+      "Przykladowy tekst xyz"
+    );
+
+    //////LOGIC:
+    document.addEventListener("click", function (e) {
+      if (!e.target.classList.contains("btn-addElem")) return;
+      //0. display what to insert a) single string b) array
+      const choiceMarkup = `<span class="container-inserted"> : <button class="btn-addElem--array btn-inserted" contentEditable="false">array</button>
+      <button class="btn-addElem--single btn-inserted" contentEditable="false">single</button></span>`;
+      const insertedBtnsArr = Array.from(
+        e.target.querySelectorAll(".btn-inserted")
+      );
+
+      if (insertedBtnsArr.length === 0)
+        e.target.insertAdjacentHTML("beforeend", choiceMarkup);
+      if (!insertedBtnsArr.length === 0)
+        document.querySelector(".container-inserted").remove();
+
+      document
+        .querySelector(".container-inserted")
+        .addEventListener("click", function (e) {
+          if (e.target.classList.contains("btn-addElem--array")) {
+            e.target
+              .closest(".row")
+              .insertAdjacentHTML("beforebegin", blankArrayInsert);
+            document.querySelector(".container-inserted").remove();
+          }
+          if (e.target.classList.contains("btn-addElem--single")) {
+            e.target
+              .closest(".row")
+              .insertAdjacentHTML("beforebegin", blankSingleInsert);
+            document.querySelector(".container-inserted").remove();
+          }
+        });
+
+      //1. UPDATE ALGO create DOM object to store / update view. Create updating algo?
+
+      //2. insert into the structure by btn's parent id
+      ////2.a create updated Object in model (FUNCTION NEEDED)
+      ////2.b call render method on newly updated Object (working copy in state - create)
+    });
+  }
+
   _generateEditBtnMarkup() {
     return `<a class="navbar-brand" href="#"
     ><button
       type="button"
-      class="btn btn-edit btn-primary btn-sm"
-      alt=""
+      class="btn btn-deleteSelected btn-primary btn-sm"
+      alt="Usuń jeden an raz"
     >
-      Edycja
+      Usuń
+    </button></a
+  >
+  <a class="navbar-brand" href="#"
+    ><button
+      type="button"
+      class="btn btn-cancelEdit btn-primary btn-sm"
+      alt="Anuluj edytowanie"
+    >
+      Anuluj
     </button></a
   >`;
   }
@@ -81,9 +141,11 @@ class ViewEditor {
                 <div class="row" contentEditable="true">
                 
                     
-                        <div class="card-inner-header card-header border border-secondary" data-array=${
-                          Array.isArray(data) ? `true` : `false`
-                        } data-innerRowId=""><button class="btn-addElem btn btn-sm btn-circle btn-primary" contentEditable="false">+ element</button>
+                        <div class="card-inner-header card-header border border-secondary" id='${this
+                          .elementCounter++}' data-array=${
+      Array.isArray(data) ? `true` : `false`
+    }>
+                        <button class="btn-addElem btn btn-light" contentEditable="false">+ element</button>
                         ${
                           Array.isArray(data)
                             ? data.map(this._markupUnwrap).join("")
@@ -96,18 +158,10 @@ class ViewEditor {
   }
 
   _markupUnwrap(data) {
-    return `<div class="card-inner-body card-body border-bottom border-white">
+    return `<div class="card-inner-body card-body border-bottom border-white" >
     ${data}
   </div>`;
   }
-
-  //   _markupUnwra() {
-  //     Array.isArray(data)
-  //       ? data.map(this._markupUnwrap).join('')
-  //       : `<div class="card-inner-body card-body">
-  //   ${data}
-  // </div>`;
-  //   }
 }
 
 export default new ViewEditor();
