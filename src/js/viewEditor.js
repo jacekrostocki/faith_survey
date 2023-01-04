@@ -3,9 +3,11 @@ class ViewEditor {
   _btnGenerate = document.querySelector(".btn-generate-a");
   _btnEdit = document.querySelector(".btn-edit");
   elementCounter = 0;
+  deletionElement = "";
 
   constructor() {
     this.addHandlerElementAddBtn();
+    document.addEventListener("click", this.deleteBtnActivation.bind(this));
   }
 
   render(data) {
@@ -25,12 +27,16 @@ class ViewEditor {
       });
     });
 
-    //remove 'generate btn' and add 'edit' btn
+    //remove 'generate btn' and add 'edit' btns
     this._btnGenerate.insertAdjacentHTML(
       "afterend",
       this._generateEditBtnMarkup()
     );
     this._btnGenerate.style.display = "none";
+    //delete functionality assigned to btn
+    document
+      .querySelector(".btn-deleteSelected")
+      .addEventListener("click", this.deleteBtnFunctionality.bind(this));
   }
 
   addHandlerEditorBtn(handler) {
@@ -87,31 +93,43 @@ class ViewEditor {
 
       //1. UPDATE ALGO create DOM object to store / update view. Create updating algo?
 
-      //2. insert into the structure by btn's parent id
       ////2.a create updated Object in model (FUNCTION NEEDED)
       ////2.b call render method on newly updated Object (working copy in state - create)
     });
   }
 
+  deleteBtnFunctionality(e) {
+    document.querySelector(`[data-rowid="${this.deletionElement}"]`).remove();
+  }
+
+  deleteBtnActivation(e) {
+    const deleteBtn = document.querySelector(".btn-deleteSelected");
+    if (document.activeElement.classList.contains("row")) {
+      this.deletionElement = document.activeElement.dataset.rowid;
+      deleteBtn.removeAttribute("disabled");
+    }
+
+    if (!document.activeElement.classList.contains("row")) {
+      if (!deleteBtn.hasAttribute("disabled"))
+        deleteBtn.setAttribute("disabled", "");
+    }
+  }
+
   _generateEditBtnMarkup() {
-    return `<a class="navbar-brand" href="#"
-    ><button
+    return `<button
       type="button"
       class="btn btn-deleteSelected btn-primary btn-sm"
-      alt="Usuń jeden an raz"
-    >
-      Usuń
-    </button></a
-  >
-  <a class="navbar-brand" href="#"
-    ><button
+      alt="Usuń jeden an raz" 
+      disabled>
+      Usuń zaznaczony
+    </button>
+  <button
       type="button"
       class="btn btn-cancelEdit btn-primary btn-sm"
       alt="Anuluj edytowanie"
     >
       Anuluj
-    </button></a
-  >`;
+    </button>`;
   }
 
   _generateStageMarkup(data) {
@@ -138,7 +156,8 @@ class ViewEditor {
   _generateInnerMarkup(data) {
     return `
             
-                <div class="row" contentEditable="true">
+                <div class="row" data-rowID='${this
+                  .elementCounter++}' contentEditable="true">
                 
                     
                         <div class="card-inner-header card-header border border-secondary" id='${this
