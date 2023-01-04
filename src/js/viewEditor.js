@@ -39,6 +39,9 @@ class ViewEditor {
     document
       .querySelector(".btn-deleteSelected")
       .addEventListener("click", this.deleteBtnFunctionality.bind(this));
+
+    //TESTTTTT
+    this.saveFunctionality();
   }
 
   addHandlerEditorBtn(handler) {
@@ -46,10 +49,6 @@ class ViewEditor {
       handler();
     });
   }
-
-  //FEATURES add plan
-  //1. add EDIT functionality
-  //1.A EDIT text // add new elements // save and set as current// keep previous version - history trial //retore
 
   elementAddFunctionality(e) {
     const blankArrayInsert = this._generateInnerMarkup([
@@ -109,6 +108,32 @@ class ViewEditor {
     }
   }
 
+  saveFunctionality() {
+    const stageArr = Array.from(document.querySelectorAll(".card-stage-body"));
+    const inner = document.querySelector(".card-inner-header");
+    const savedObject = {};
+    for (const [i, el] of stageArr.entries()) {
+      savedObject[`stage${i}`] = [];
+      const currentStage = savedObject[`stage${i}`];
+      //   console.log(savedObject[el.dataset.stage]);
+      Array.from(el.querySelectorAll(".card-inner-header")).forEach((el) => {
+        if (el.dataset.array === "true") {
+          currentStage.push(
+            Array.from(el.querySelectorAll(".card-inner-body")).map(
+              (bodyElem) => bodyElem.textContent
+            )
+          );
+        }
+        if (!el.dataset.array === "true") {
+          const copy = el;
+          copy.querySelector("button").remove();
+          savedObject.el.push(copy.textContent);
+        }
+      });
+    }
+    console.log(savedObject);
+  }
+
   _generateEditBtnMarkup() {
     return `<button
       type="button"
@@ -135,7 +160,8 @@ class ViewEditor {
                     <div class="card-stage-header ">
                     ${data}
                      
-                    <div class="card-stage-body card-body"  data-stage="${data}" id='${this.stageCounter}'>
+                    <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
+      .stageCounter++}'>
                   
                     </div>
                        
@@ -154,7 +180,7 @@ class ViewEditor {
                   .rowCounter++}' contentEditable="true">
                 
                     
-                        <div class="card-inner-header card-header border border-secondary" id='${this
+                        <div class="card-inner-header card-header border border-secondary" data-innerID='${this
                           .innerHeaderCounter++}' data-array=${
       Array.isArray(data) ? `true` : `false`
     }>

@@ -48,3 +48,13 @@ const init = function () {
   view.initQQonWelcome();
 };
 init();
+
+const test = {
+  category1: ["bb", ["sd", "sd"]],
+  category2: [2],
+};
+const stage = "stage";
+test.category3 = [1];
+test[`stage${1 + 2}`] = [2];
+
+console.log(test);
