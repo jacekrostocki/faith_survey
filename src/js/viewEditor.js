@@ -2,11 +2,13 @@ class ViewEditor {
   mainContainer = document.querySelector(".main-container");
   _btnGenerate = document.querySelector(".btn-generate-a");
   _btnEdit = document.querySelector(".btn-edit");
-  elementCounter = 0;
+  innerHeaderCounter = 0;
+  rowCounter = 0;
+  stageCounter = 0;
   deletionElement = "";
 
   constructor() {
-    this.addHandlerElementAddBtn();
+    document.addEventListener("click", this.elementAddFunctionality.bind(this));
     document.addEventListener("click", this.deleteBtnActivation.bind(this));
   }
 
@@ -49,7 +51,7 @@ class ViewEditor {
   //1. add EDIT functionality
   //1.A EDIT text // add new elements // save and set as current// keep previous version - history trial //retore
 
-  addHandlerElementAddBtn() {
+  elementAddFunctionality(e) {
     const blankArrayInsert = this._generateInnerMarkup([
       "o",
       "Przykladowy tekst1",
@@ -59,43 +61,35 @@ class ViewEditor {
       "Przykladowy tekst xyz"
     );
 
-    //////LOGIC:
-    document.addEventListener("click", function (e) {
-      if (!e.target.classList.contains("btn-addElem")) return;
-      //0. display what to insert a) single string b) array
-      const choiceMarkup = `<span class="container-inserted"> : <button class="btn-addElem--array btn-inserted" contentEditable="false">array</button>
+    if (!e.target.classList.contains("btn-addElem")) return;
+    //0. display what to insert a) single string b) array
+    const choiceMarkup = `<span class="container-inserted"> : <button class="btn-addElem--array btn-inserted" contentEditable="false">array</button>
       <button class="btn-addElem--single btn-inserted" contentEditable="false">single</button></span>`;
-      const insertedBtnsArr = Array.from(
-        e.target.querySelectorAll(".btn-inserted")
-      );
+    const insertedBtnsArr = Array.from(
+      e.target.querySelectorAll(".btn-inserted")
+    );
 
-      if (insertedBtnsArr.length === 0)
-        e.target.insertAdjacentHTML("beforeend", choiceMarkup);
-      if (!insertedBtnsArr.length === 0)
-        document.querySelector(".container-inserted").remove();
+    if (insertedBtnsArr.length === 0)
+      e.target.insertAdjacentHTML("beforeend", choiceMarkup);
+    if (!insertedBtnsArr.length === 0)
+      document.querySelector(".container-inserted").remove();
 
-      document
-        .querySelector(".container-inserted")
-        .addEventListener("click", function (e) {
-          if (e.target.classList.contains("btn-addElem--array")) {
-            e.target
-              .closest(".row")
-              .insertAdjacentHTML("beforebegin", blankArrayInsert);
-            document.querySelector(".container-inserted").remove();
-          }
-          if (e.target.classList.contains("btn-addElem--single")) {
-            e.target
-              .closest(".row")
-              .insertAdjacentHTML("beforebegin", blankSingleInsert);
-            document.querySelector(".container-inserted").remove();
-          }
-        });
-
-      //1. UPDATE ALGO create DOM object to store / update view. Create updating algo?
-
-      ////2.a create updated Object in model (FUNCTION NEEDED)
-      ////2.b call render method on newly updated Object (working copy in state - create)
-    });
+    document
+      .querySelector(".container-inserted")
+      .addEventListener("click", function (e) {
+        if (e.target.classList.contains("btn-addElem--array")) {
+          e.target
+            .closest(".row")
+            .insertAdjacentHTML("beforebegin", blankArrayInsert);
+          document.querySelector(".container-inserted").remove();
+        }
+        if (e.target.classList.contains("btn-addElem--single")) {
+          e.target
+            .closest(".row")
+            .insertAdjacentHTML("beforebegin", blankSingleInsert);
+          document.querySelector(".container-inserted").remove();
+        }
+      });
   }
 
   deleteBtnFunctionality(e) {
@@ -128,7 +122,7 @@ class ViewEditor {
       class="btn btn-cancelEdit btn-primary btn-sm"
       alt="Anuluj edytowanie"
     >
-      Anuluj
+      Przywróć
     </button>`;
   }
 
@@ -141,7 +135,7 @@ class ViewEditor {
                     <div class="card-stage-header ">
                     ${data}
                      
-                    <div class="card-stage-body card-body"  data-stage="${data}">
+                    <div class="card-stage-body card-body"  data-stage="${data}" id='${this.stageCounter}'>
                   
                     </div>
                        
@@ -157,11 +151,11 @@ class ViewEditor {
     return `
             
                 <div class="row" data-rowID='${this
-                  .elementCounter++}' contentEditable="true">
+                  .rowCounter++}' contentEditable="true">
                 
                     
                         <div class="card-inner-header card-header border border-secondary" id='${this
-                          .elementCounter++}' data-array=${
+                          .innerHeaderCounter++}' data-array=${
       Array.isArray(data) ? `true` : `false`
     }>
                         <button class="btn-addElem btn btn-light" contentEditable="false">+ element</button>
