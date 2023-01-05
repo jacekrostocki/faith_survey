@@ -113,23 +113,30 @@ class ViewEditor {
     const inner = document.querySelector(".card-inner-header");
     const savedObject = {};
     for (const [i, el] of stageArr.entries()) {
-      savedObject[`stage${i}`] = [];
-      const currentStage = savedObject[`stage${i}`];
+      console.log(el);
+      savedObject[`${el.dataset.stage}`] = [];
+      const currentStage = savedObject[`${el.dataset.stage}`];
       //   console.log(savedObject[el.dataset.stage]);
-      Array.from(el.querySelectorAll(".card-inner-header")).forEach((el) => {
-        if (el.dataset.array === "true") {
-          currentStage.push(
-            Array.from(el.querySelectorAll(".card-inner-body")).map(
-              (bodyElem) => bodyElem.textContent
-            )
-          );
+      Array.from(el.querySelectorAll(".card-inner-header")).forEach(
+        (innerEl) => {
+          if (innerEl.dataset.array === "true") {
+            currentStage.push(
+              Array.from(innerEl.querySelectorAll(".card-inner-body")).map(
+                (bodyElem) =>
+                  bodyElem.textContent.replace(/(\r\n|\n|\r)/gm, "").trim()
+              )
+            );
+          }
+          if (innerEl.dataset.array === "false") {
+            currentStage.push(
+              innerEl
+                .querySelector(".card-inner-body")
+                .textContent.replace(/(\r\n|\n|\r)/gm, "")
+                .trim()
+            );
+          }
         }
-        if (!el.dataset.array === "true") {
-          const copy = el;
-          copy.querySelector("button").remove();
-          savedObject.el.push(copy.textContent);
-        }
-      });
+      );
     }
     console.log(savedObject);
   }
@@ -158,7 +165,7 @@ class ViewEditor {
                 
                     <div class="card border border-primary border-1">
                     <div class="card-stage-header ">
-                    ${data}
+                    <span class="card-stage-header-span">${data}</span> 
                      
                     <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
       .stageCounter++}'>
