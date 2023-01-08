@@ -66,7 +66,7 @@ export const state = {
       "Tylko nadmienimy, że bardzo pomocne w analizie obecnje sytuacji i aby pomóc to zrozumieć (odpowiedzieć sobie czemu?! jak to możliwe?!) - jest poznanie historii Rzymu, wczesnego chrześcijaństwa (prześladowań). Bedzie to wyśmienity początek do poznania praktycznego odzwierciedlenia powiedzenia 'wilk w owczej skorze' - Jezus ostrzegał dużo razy w swojej ewangelii.",
     ],
   },
-
+  surveyHistory: [],
   headers: [],
   qqEl: "",
   respEl1: "",
@@ -90,6 +90,16 @@ const init = function () {
   headersArrCreateInit();
 };
 init();
+
+export const savingObjectFromEditor = function (savedObject) {
+  //strore objects in map where key is date stamp
+  //shift current survey into 'survayHistory
+  state.surveyHistory.unshift(state.survey);
+  // state.survey = savedObject;
+  // console.log(state.survey);
+  //move new object to survay property as main now
+};
+
 /////////////////////////////////////////////
 // stage name =  state.headers[state.stageC];
 

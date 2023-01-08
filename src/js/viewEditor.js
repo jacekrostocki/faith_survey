@@ -2,15 +2,13 @@ class ViewEditor {
   mainContainer = document.querySelector(".main-container");
   _btnGenerate = document.querySelector(".btn-generate-a");
   _btnEdit = document.querySelector(".btn-edit");
+  _btnSave = document.querySelector(".btn-save");
   innerHeaderCounter = 0;
   rowCounter = 0;
   stageCounter = 0;
   deletionElement = "";
 
-  constructor() {
-    document.addEventListener("click", this.elementAddFunctionality.bind(this));
-    document.addEventListener("click", this.deleteBtnActivation.bind(this));
-  }
+  constructor() {}
 
   render(data) {
     Object.keys(data).forEach((stage) => {
@@ -28,20 +26,52 @@ class ViewEditor {
         );
       });
     });
+  }
 
+  renderInit(data) {
     //remove 'generate btn' and add 'edit' btns
+
     this._btnGenerate.insertAdjacentHTML(
       "afterend",
       this._generateEditBtnMarkup()
     );
     this._btnGenerate.style.display = "none";
+
+    //Activate deletion btn when element is selected (row)
+    document.addEventListener("click", this.deleteBtnActivation.bind(this));
     //delete functionality assigned to btn
     document
       .querySelector(".btn-deleteSelected")
       .addEventListener("click", this.deleteBtnFunctionality.bind(this));
+    //add stage btn functionality
+    document
+      .querySelector(".btn-new-stage")
+      .addEventListener("click", this.addStage.bind(this));
+    //+ element button fuctionality attach
+    document.addEventListener("click", this.elementAddFunctionality.bind(this));
 
-    //TESTTTTT
-    this.saveFunctionality();
+    //delete stage adding listener to check if proper field clicked
+    ///TESTING delete   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    document
+      .querySelector(".btn-restore-prev")
+      .addEventListener("click", this.testSave.bind(this));
+  }
+
+  addStage(e) {
+    const newStageExample = {};
+    newStageExample[`stage${this.stageCounter++}`] = [
+      "example one liner",
+      ["o", "example: answer A", "example: answer B"],
+      ["r", "example: reaction A", "example: reaction B"],
+
+      [
+        "o/P",
+        "reaction/comment & new Path A marker",
+        "reaction/comment & new Path B marker",
+      ],
+    ];
+    this.render(newStageExample);
+    delete newStageExample[`stage${this.stageCounter++}`];
   }
 
   addHandlerEditorBtn(handler) {
@@ -108,12 +138,29 @@ class ViewEditor {
     }
   }
 
-  saveFunctionality() {
+  addHandlerSaveFunctionality(handler) {
+    this._btnSave.addEventListener("click", function (e) {
+      handler();
+    });
+  }
+
+  testSave() {
+    this.saveObjectCreate();
+  }
+
+  saveObjectCreate() {
     const stageArr = Array.from(document.querySelectorAll(".card-stage-body"));
-    const inner = document.querySelector(".card-inner-header");
+
     const savedObject = {};
     for (const [i, el] of stageArr.entries()) {
-      console.log(el);
+      //updating DATASET parameter on DOM element to be what was edited by user on element before saving (title)
+      let titleToDataset = el
+        .closest(".card-stage-header")
+        .querySelector(".card-stage-header-span").textContent;
+
+      el.dataset.stage = titleToDataset;
+      console.log(el.dataset.stage);
+      //main logic
       savedObject[`${el.dataset.stage}`] = [];
       const currentStage = savedObject[`${el.dataset.stage}`];
       //   console.log(savedObject[el.dataset.stage]);
@@ -139,6 +186,7 @@ class ViewEditor {
       );
     }
     console.log(savedObject);
+    return savedObject;
   }
 
   _generateEditBtnMarkup() {
@@ -151,20 +199,27 @@ class ViewEditor {
     </button>
   <button
       type="button"
-      class="btn btn-cancelEdit btn-primary btn-sm"
+      class="btn btn-restore-prev btn-primary btn-sm"
       alt="Anuluj edytowanie"
     >
       Przywróć
+    </button>
+    <button
+      type="button"
+      class="btn btn-new-stage btn-primary btn-sm"
+      alt="Nowy stage"
+    >
+      + Dodaj stage
     </button>`;
   }
 
   _generateStageMarkup(data) {
     return `
-            <div class="container">
+            <div class="container" data-container-stage="${data}">
                 <div class="row">
                 
                     <div class="card border border-primary border-1">
-                    <div class="card-stage-header ">
+                    <div class="card-stage-header">
                     <span class="card-stage-header-span">${data}</span> 
                      
                     <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
