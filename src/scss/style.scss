@@ -15,7 +15,9 @@
 .hidden {
   display: none;
 }
-
+.visible {
+  display: initial;
+}
 .font-family-inter {
   font-family: "Inter", sans-serif;
 }
@@ -39,4 +41,16 @@
   margin: 0; /* this removes any margins from the button */
   border: 1px solid black;
   transform: translateX(30%) translateY(-80%) translateZ(100px); /* this moves the button 50% outside of the div border and higher on the Z axis */
+}
+// $background-color_1: white;
+.modal--active {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  // width: 70%;
+  // background-color: $background-color_1;
+  // padding: 6rem;
+  // border-radius: 5px;
+  z-index: 10;
 }

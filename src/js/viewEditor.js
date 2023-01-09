@@ -7,6 +7,7 @@ class ViewEditor {
   rowCounter = 0;
   stageCounter = 0;
   deletionElement = "";
+  deletionEditionStage = "";
 
   constructor() {}
 
@@ -51,10 +52,13 @@ class ViewEditor {
     document.addEventListener("click", this.elementAddFunctionality.bind(this));
 
     //delete stage adding listener to check if proper field clicked
-    ///TESTING delete   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///TESTING Save   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     document
       .querySelector(".btn-restore-prev")
       .addEventListener("click", this.testSave.bind(this));
+
+    //TESTING 2 modal/stage delete and edit
+    document.addEventListener("click", this.stageEditDelete.bind(this));
   }
 
   addStage(e) {
@@ -220,7 +224,7 @@ class ViewEditor {
                 
                     <div class="card border border-primary border-1">
                     <div class="card-stage-header">
-                    <span class="card-stage-header-span">${data}</span> 
+                    <span class="card-stage-header-span" data-span-stage="${data}">${data}</span> 
                      
                     <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
       .stageCounter++}'>
@@ -262,6 +266,65 @@ class ViewEditor {
     return `<div class="card-inner-body card-body border-bottom border-white" >
     ${data}
   </div>`;
+  }
+
+  stageEditDelete(e) {
+    if (e.target.classList.contains("card-stage-header-span")) {
+      this.deletionEditionStage = e.target.textContent;
+      console.log(this.deletionEditionStage);
+      this.mainContainer.insertAdjacentHTML(
+        "afterbegin",
+        this.generateModal(this.deletionEditionStage)
+      );
+      //event listeners per modal btn
+      document
+        .querySelector(".btn-danger")
+        .addEventListener("click", this.modalStageDelete.bind(this));
+      document
+        .querySelector(".btn-success")
+        .addEventListener("click", this.modalStageSave.bind(this));
+    }
+  }
+
+  modalStageDelete(e) {
+    document
+      .querySelector(`[data-container-stage="${this.deletionEditionStage}"]`)
+      .remove();
+    this.deletionEditionStage = "";
+  }
+
+  modalStageSave(e) {
+    const newValueModal = document.querySelector(".modal-body-input").value;
+    console.log(
+      newValueModal,
+      this.deletionEditionStage,
+      document.querySelector(`[data-span-stage="${this.deletionEditionStage}"]`)
+    );
+    document.querySelector(
+      `[data-span-stage="${this.deletionEditionStage}"]`
+    ).textContent = newValueModal;
+  }
+
+  generateModal(data) {
+    return `
+    <div class="modal modal--active visible" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edytuj tytuł sekcji LUB usuń cały segment 🤠</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" data-baseline="${data}">
+      ${data}
+      <input type="text" class="modal-body-input" placeholder="-> zmień tytuł naa....">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Usuń sekcje</button>
+        <button type="button" class="btn btn-success">Zapisz tytuł</button>
+      </div>
+    </div>
+  </div>
+</div>`;
   }
 }
 
