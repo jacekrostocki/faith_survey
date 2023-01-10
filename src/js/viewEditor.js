@@ -267,15 +267,23 @@ class ViewEditor {
     ${data}
   </div>`;
   }
-
+  //MODAL
+  //// 1.  display aligned to current viewport
+  ////2. only one modal can be up at a time
   stageEditDelete(e) {
     if (e.target.classList.contains("card-stage-header-span")) {
       this.deletionEditionStage = e.target.textContent;
       console.log(this.deletionEditionStage);
-      this.mainContainer.insertAdjacentHTML(
+      e.target.insertAdjacentHTML(
         "afterbegin",
         this.generateModal(this.deletionEditionStage)
       );
+      //overaly insert
+      this.mainContainer.insertAdjacentHTML(
+        "afterbegin",
+        this.generateOverlay()
+      );
+
       //event listeners per modal btn
       document
         .querySelector(".btn-danger")
@@ -283,6 +291,9 @@ class ViewEditor {
       document
         .querySelector(".btn-success")
         .addEventListener("click", this.modalStageSave.bind(this));
+      document
+        .querySelector(".btn-close")
+        .addEventListener("click", this.modalClose.bind(this));
     }
   }
 
@@ -291,18 +302,27 @@ class ViewEditor {
       .querySelector(`[data-container-stage="${this.deletionEditionStage}"]`)
       .remove();
     this.deletionEditionStage = "";
+    //modal remove
+    this.elementsRemovals();
   }
 
   modalStageSave(e) {
     const newValueModal = document.querySelector(".modal-body-input").value;
-    console.log(
-      newValueModal,
-      this.deletionEditionStage,
-      document.querySelector(`[data-span-stage="${this.deletionEditionStage}"]`)
-    );
+
     document.querySelector(
       `[data-span-stage="${this.deletionEditionStage}"]`
     ).textContent = newValueModal;
+    //modal remove
+    this.elementsRemovals();
+  }
+
+  modalClose(e) {
+    this.elementsRemovals();
+  }
+
+  elementsRemovals() {
+    document.querySelector(".modal--active").remove();
+    document.querySelector(".overlay").remove();
   }
 
   generateModal(data) {
@@ -315,8 +335,8 @@ class ViewEditor {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" data-baseline="${data}">
-      ${data}
-      <input type="text" class="modal-body-input" placeholder="-> zmień tytuł naa....">
+      Aktualna nazwa: ${data} 
+      <input type="text" class="modal-body-input" placeholder=" Podaj nową nazwę ">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Usuń sekcje</button>
@@ -325,6 +345,10 @@ class ViewEditor {
     </div>
   </div>
 </div>`;
+  }
+
+  generateOverlay() {
+    return `<div class="overlay"></div>`;
   }
 }
 
