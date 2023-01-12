@@ -95,9 +95,12 @@ export const savingObjectFromEditor = function (savedObject) {
   //strore objects in map where key is date stamp
   //shift current survey into 'survayHistory
   state.surveyHistory.unshift(state.survey);
-  // state.survey = savedObject;
-  // console.log(state.survey);
-  //move new object to survay property as main now
+  //delete current survey
+  delete state.survey;
+  //create new state.survey property with new saved state
+  Object.state.survey = { ...savedObject };
+  console.log(state.survey);
+  console.log(state.surveyHistory);
 };
 
 /////////////////////////////////////////////
@@ -263,10 +266,7 @@ export const pushIntoState = function () {
     state.respEl2 = currQA[state.innerStageC][2];
     state.pathSelection = 1;
   }
-  //visibleCurrentElem needed for 'go back' functionality and IF condiions. Need to capture actual element displayed. as push into state is designed to increase counter always at the bottom
-  // state.visibleStageIndex = state.stageC;
-  // state.visibleInnerIndex = state.innerStageC;
-  //backup only on Question mark
+
   localStorageSet();
   //invoke stage counter + increase innerStageCounter
   if (state.progress === true) return;

@@ -75,7 +75,9 @@ class ViewEditor {
       ],
     ];
     this.render(newStageExample);
-    delete newStageExample[`stage${this.stageCounter++}`];
+    //scroll to added element
+    // document.querySelector('[data-span-stage]')
+    // delete newStageExample[`stage${this.stageCounter++}`];
   }
 
   addHandlerEditorBtn(handler) {
@@ -223,10 +225,10 @@ class ViewEditor {
                 <div class="row">
                 
                     <div class="card border border-primary border-1">
-                    <div class="card-stage-header">
-                    <span class="card-stage-header-span" data-span-stage="${data}">${data}</span> 
-                     
-                    <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
+                        <div class="card-stage-header">
+                            <span class="card-stage-header-span" data-span-stage="${data}">${data}</span> 
+                        
+                        <div class="card-stage-body card-body"  data-stage="${data}" data-stageID='${this
       .stageCounter++}'>
                   
                     </div>
@@ -273,7 +275,7 @@ class ViewEditor {
   stageEditDelete(e) {
     if (e.target.classList.contains("card-stage-header-span")) {
       this.deletionEditionStage = e.target.textContent;
-      console.log(this.deletionEditionStage);
+
       e.target.insertAdjacentHTML(
         "afterbegin",
         this.generateModal(this.deletionEditionStage)
@@ -298,12 +300,17 @@ class ViewEditor {
   }
 
   modalStageDelete(e) {
+    console.log(
+      document.querySelector(
+        `[data-container-stage="${this.deletionEditionStage}"]`
+      )
+    );
     document
       .querySelector(`[data-container-stage="${this.deletionEditionStage}"]`)
       .remove();
     this.deletionEditionStage = "";
-    //modal remove
-    this.elementsRemovals();
+    //overlay remove
+    document.querySelector(".overlay").remove();
   }
 
   modalStageSave(e) {
@@ -312,15 +319,24 @@ class ViewEditor {
     document.querySelector(
       `[data-span-stage="${this.deletionEditionStage}"]`
     ).textContent = newValueModal;
-    //modal remove
-    this.elementsRemovals();
+    //dataset-stage update witn new value per each element in container
+    document
+      .querySelector(`[data-span-stage="${this.deletionEditionStage}"]`)
+      .closest(".container").dataset.containerStage = newValueModal;
+    document.querySelector(
+      `[data-span-stage="${this.deletionEditionStage}"]`
+    ).dataset.spanStage = newValueModal;
+    document.querySelector(
+      `[data-span-stage="${this.deletionEditionStage}"]`
+    ).nextElementSibling.dataset.stage = newValueModal;
+
+    //overlay
+    document.querySelector(".overlay").remove();
+
+    //
   }
 
   modalClose(e) {
-    this.elementsRemovals();
-  }
-
-  elementsRemovals() {
     document.querySelector(".modal--active").remove();
     document.querySelector(".overlay").remove();
   }
@@ -339,7 +355,7 @@ class ViewEditor {
       <input type="text" class="modal-body-input" placeholder=" Podaj nową nazwę ">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Usuń sekcje</button>
+        <button type="button" class="btn btn-danger">Usuń sekcje</button>
         <button type="button" class="btn btn-success">Zapisz tytuł</button>
       </div>
     </div>
