@@ -10,7 +10,7 @@ const controlGenerate = function () {
 const controlSavingFunctionality = function () {
   //generate new object based on DOM elements from editor
   //   viewEditor.saveFunctionality();
-  model.savingObjectFromEditor(viewEditor.saveObjectCreate);
+  model.savingObjectFromEditor(viewEditor.saveObjectCreate());
 };
 //
 

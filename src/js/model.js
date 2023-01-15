@@ -91,14 +91,16 @@ const init = function () {
 };
 init();
 
-export const savingObjectFromEditor = function (savedObject) {
+export const savingObjectFromEditor = function (savedMap) {
   //strore objects in map where key is date stamp
   //shift current survey into 'survayHistory
   state.surveyHistory.unshift(state.survey);
   //delete current survey
   delete state.survey;
   //create new state.survey property with new saved state
-  Object.state.survey = { ...savedObject };
+  state.survey = Object.fromEntries(savedMap);
+
+  console.log(savedMap);
   console.log(state.survey);
   console.log(state.surveyHistory);
 };

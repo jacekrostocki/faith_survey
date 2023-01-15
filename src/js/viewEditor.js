@@ -157,7 +157,7 @@ class ViewEditor {
   saveObjectCreate() {
     const stageArr = Array.from(document.querySelectorAll(".card-stage-body"));
 
-    const savedObject = {};
+    const savedMap = new Map();
     for (const [i, el] of stageArr.entries()) {
       //updating DATASET parameter on DOM element to be what was edited by user on element before saving (title)
       let titleToDataset = el
@@ -167,13 +167,14 @@ class ViewEditor {
       el.dataset.stage = titleToDataset;
       console.log(el.dataset.stage);
       //main logic
-      savedObject[`${el.dataset.stage}`] = [];
-      const currentStage = savedObject[`${el.dataset.stage}`];
-      //   console.log(savedObject[el.dataset.stage]);
+
+      const currentStage = `${el.dataset.stage}`;
+      const currInnerCluster = [];
+
       Array.from(el.querySelectorAll(".card-inner-header")).forEach(
         (innerEl) => {
           if (innerEl.dataset.array === "true") {
-            currentStage.push(
+            currInnerCluster.push(
               Array.from(innerEl.querySelectorAll(".card-inner-body")).map(
                 (bodyElem) =>
                   bodyElem.textContent.replace(/(\r\n|\n|\r)/gm, "").trim()
@@ -181,18 +182,19 @@ class ViewEditor {
             );
           }
           if (innerEl.dataset.array === "false") {
-            currentStage.push(
+            currInnerCluster.push(
               innerEl
                 .querySelector(".card-inner-body")
                 .textContent.replace(/(\r\n|\n|\r)/gm, "")
                 .trim()
             );
           }
+          savedMap.set(currentStage, currInnerCluster);
         }
       );
     }
-    console.log(savedObject);
-    return savedObject;
+    console.log(savedMap);
+    return savedMap;
   }
 
   _generateEditBtnMarkup() {
@@ -300,11 +302,6 @@ class ViewEditor {
   }
 
   modalStageDelete(e) {
-    console.log(
-      document.querySelector(
-        `[data-container-stage="${this.deletionEditionStage}"]`
-      )
-    );
     document
       .querySelector(`[data-container-stage="${this.deletionEditionStage}"]`)
       .remove();
@@ -314,24 +311,30 @@ class ViewEditor {
   }
 
   modalStageSave(e) {
-    const newValueModal = document.querySelector(".modal-body-input").value;
+    try {
+      const newValueModal = document.querySelector(".modal-body-input").value;
 
-    document.querySelector(
-      `[data-span-stage="${this.deletionEditionStage}"]`
-    ).textContent = newValueModal;
-    //dataset-stage update witn new value per each element in container
-    document
-      .querySelector(`[data-span-stage="${this.deletionEditionStage}"]`)
-      .closest(".container").dataset.containerStage = newValueModal;
-    document.querySelector(
-      `[data-span-stage="${this.deletionEditionStage}"]`
-    ).dataset.spanStage = newValueModal;
-    document.querySelector(
-      `[data-span-stage="${this.deletionEditionStage}"]`
-    ).nextElementSibling.dataset.stage = newValueModal;
+      document.querySelector(
+        `[data-span-stage="${this.deletionEditionStage}"]`
+      ).textContent = newValueModal;
+      //dataset-stage update witn new value per each element in container
 
-    //overlay
-    document.querySelector(".overlay").remove();
+      document
+        .querySelector(`[data-span-stage="${this.deletionEditionStage}"]`)
+        .closest(".container").dataset.containerStage = newValueModal;
+
+      document.querySelector(
+        `[data-span-stage="${this.deletionEditionStage}"]`
+      ).nextElementSibling.dataset.stage = newValueModal;
+
+      document.querySelector(
+        `[data-span-stage="${this.deletionEditionStage}"]`
+      ).dataset.spanStage = newValueModal;
+      //overlay
+      document.querySelector(".overlay").remove();
+    } catch (err) {
+      console.error(err.message);
+    }
 
     //
   }
